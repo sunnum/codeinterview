@@ -13,21 +13,31 @@ public class StringDistanceTest {
         return IMPLEMENTATION.solution(val1, val2);
     }
 
+    private void test(String val1, String val2, int expected) {
+        assertEquals(expected, solution(val1, val2), () -> val1 + " : " + val2 + " = " + expected);
+    }
+
     @Test
-    void tests() {
-        assertEquals(0, solution("abc", "ABC"));
-        assertEquals(3, solution("abc", "def"));
-        assertEquals(1, solution("abc", "ABCD"));
-        assertEquals(1, solution("abc", "AC"));
+    void test1() {
+        test("abc", "ABC", 0);
+        test("abc", "def", 3);
+        test("abc", "ABCD", 1);
+        test("abc", "AC", 1);
+    }
 
-        assertEquals(4, solution("CBA", "abc"));
-        assertEquals(3, solution("def", "abc"));
-        assertEquals(5, solution("DCBA", "abc"));
-        assertEquals(3, solution("CA", "abc"));
+    @Test
+    void test2() {
+        test("CBA", "abc", 2);
+        test("def", "abc", 3);
+        test("DCBA", "abc", 3);
+        test("CA", "abc", 3);
+    }
 
-        assertEquals(3, solution("", "abc"));
-        assertEquals(3, solution("abc", ""));
-        assertEquals(0, solution("", ""));
+    @Test
+    void test3() {
+        test("", "abc", 3);
+        test("abc", "", 3);
+        test("", "", 0);
     }
 
 }
