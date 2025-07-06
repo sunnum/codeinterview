@@ -4,6 +4,7 @@ import com.hermesou.codeinterview.solutions.strings.SplitString;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -19,19 +20,24 @@ public class SplitStringTest {
         return IMPLEMENTATION.solution(text);
     }
 
-    private Set<List<String>> toSets(String[][] var) {
-        return Arrays.stream(var).map(List::of).collect(Collectors.toSet());
+    private Set<List<String>> toSetOfLists(String[][] var) {
+        return Arrays.stream(var).map(List::of).collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    private void test(String value, String[][] expected) {
+        String[][] result = solution(value);
+        var expectedSet = toSetOfLists(expected);
+        var resultSet = toSetOfLists(result);
+        assertEquals(expectedSet, resultSet, () -> value + " : " + resultSet + " vs " + expectedSet);
     }
 
     @Test
     void test1() {
-        String[][] result = solution("abacaba");
-        String[][] correct = {
-            {"a", "ba", "cab", "a"},
-            {"ab", "a", "ca", "ba"},
-            {"ab", "ac", "a", "ba"},
-        };
-        assertEquals(toSets(correct), toSets(result));
+        test("abacaba", new String[][] {
+                {"a", "ba", "cab", "a"},
+                {"ab", "a", "ca", "ba"},
+                {"ab", "ac", "a", "ba"},
+        });
     }
 
 }
