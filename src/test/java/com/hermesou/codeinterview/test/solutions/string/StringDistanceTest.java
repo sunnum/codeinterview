@@ -1,20 +1,43 @@
 package com.hermesou.codeinterview.test.solutions.string;
 
 import com.hermesou.codeinterview.solutions.strings.StringDistance;
+import com.hermesou.codeinterview.test.solutions.AbstractTest;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class StringDistanceTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+/**
+ * Tests for calculating the V.Levenshtein distance between strings.
+ * @author sunnum
+ */
+public class StringDistanceTest extends AbstractTest {
 
     private final static StringDistance IMPLEMENTATION = new StringDistance();
 
-    private int solution(String val1, String val2) {
-        return IMPLEMENTATION.solution(val1, val2);
+    private void test(String val1, String val2, int expected) {
+        assertEquals(expected, IMPLEMENTATION.solution(val1, val2), () ->
+                String.format("%s : %s = %d", val1, val2, expected));
     }
 
-    private void test(String val1, String val2, int expected) {
-        assertEquals(expected, solution(val1, val2), () -> val1 + " : " + val2 + " = " + expected);
+    private void comp(String val1, String val2, String caption) {
+        AtomicInteger phi = new AtomicInteger(0);
+        IMPLEMENTATION.solution(val1, val2, phi);
+        log(() -> String.format("φ (%s) = %d", caption, phi.get()));
+        assertTrue(phi.get() > 0, () -> String.format("φ (%s) = %d", caption, phi.get()));
+    }
+
+    @Test
+    void test0() {
+        StringBuilder sb;
+
+        // "a...z" : "z...a"
+        sb = new StringBuilder();
+        for (char c = 'a'; c <= 'z'; c++)
+            sb.append(c);
+        comp(sb.toString(), sb.reverse().toString(), "a...z : z...a");
     }
 
     @Test

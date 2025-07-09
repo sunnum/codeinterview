@@ -16,6 +16,10 @@ import java.util.logging.Logger;
 
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectPackage;
 
+/**
+ * Main tests wrapper to run from console.
+ * @author sunnum
+ */
 public class MainTest {
 
     private static final String LOGGIN_RESOURCE = "logging.properties";

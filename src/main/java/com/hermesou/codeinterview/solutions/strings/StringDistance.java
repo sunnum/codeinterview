@@ -2,12 +2,29 @@ package com.hermesou.codeinterview.solutions.strings;
 
 import com.hermesou.codeinterview.solutions.AbstractSolution;
 
-// Levenshtein distance
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+
+/**
+ * Calculating the V.Levenshtein distance between strings.
+ * Ο(min(n, m)), where n = val1.length(), m = val2.length()
+ * @author sunnum
+ */
 public class StringDistance extends AbstractSolution {
 
     private final static boolean ANYCASE = true;
 
+    /**
+     * Calculates the distance between two strings.
+     */
     public int solution(String val1, String val2) {
+        return solution(val1, val2, null);
+    }
+
+    /**
+     * Calculates the distance between two strings (and complexity).
+     */
+    public int solution(String val1, String val2, AtomicInteger phi) {
         // Logging
         StringBuffer logLine = null;
         if (isLogging()) {
@@ -43,6 +60,11 @@ public class StringDistance extends AbstractSolution {
         for (int j = 0; j < len2; j++) {
             int prevV = j + 1;
             for (int i = 0; i < len1; i++) {
+                // Complexity calculation
+                if (phi != null)
+                    phi.incrementAndGet();
+
+                // Calculate matrix cell value
                 var m = val1.charAt(i) == val2.charAt(j) ? 0 : 1;
                 v = Integer.min(
                         Integer.min(prevV, j == 0 ? i + 1 : prevD[i]) + 1,
